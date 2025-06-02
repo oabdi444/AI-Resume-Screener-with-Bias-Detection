@@ -58,8 +58,22 @@ else:
     for job_name, job_text in jobs:
         st.subheader(f"\U0001F9E0 Matching Resumes to Job: `{job_name}`")
 
+        # Initialize lists to collect embeddings and scores per job
+        all_resume_embeddings = []
+        all_similarity_scores = []
+
+        # Precompute job embedding once per job to avoid repetition
+        job_emb = model.encode(job_text, convert_to_tensor=True)
+
         for resume_name, resume_text in resumes:
-            score = get_similarity_scores(resume_text, job_text)
+            # Compute resume embedding once, convert to numpy for storage
+            resume_emb = model.encode(resume_text)
+            score = util.pytorch_cos_sim(resume_emb, job_emb).item()
+
+            # Store embeddings and scores for explainability or other use
+            all_resume_embeddings.append(resume_emb)
+            all_similarity_scores.append(score)
+
             st.write(f"**{resume_name}** — Similarity Score: `{score:.2f}`")
 
             # === Added AI Feedback and Q&A Section ===
@@ -76,6 +90,9 @@ else:
                         st.markdown(f"**Answer:** {answer}")
                     else:
                         st.warning("Please type a question.")
+
+        # Optional: You can add here code to call your explainability functions using
+        # all_resume_embeddings and all_similarity_scores if you want to integrate them
 
     st.subheader("\U0001F6A8 Age Bias Detection")
     biased = detect_age_bias(resumes)
