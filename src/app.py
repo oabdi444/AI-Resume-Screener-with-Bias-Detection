@@ -3,7 +3,6 @@ import os
 from src.model import get_similarity_scores
 from src.bias_detection import detect_age_bias
 
-# Load resume and job description files
 def load_text_from_folder(folder_path):
     data = []
     for filename in os.listdir(folder_path):
@@ -24,33 +23,21 @@ def main():
         print("No job descriptions found.")
         return
 
-    # List available job descriptions
-    print("Available Job Descriptions:")
-    for i, (job_name, _) in enumerate(jobs):
-        print(f"{i}: {job_name}")
+    if not resumes:
+        print("No resumes found.")
+        return
 
-    # Let user select which job description to use
-    while True:
-        try:
-            choice = int(input(f"Select a job description by number (0-{len(jobs)-1}): "))
-            if 0 <= choice < len(jobs):
-                break
-            else:
-                print("Invalid choice, try again.")
-        except ValueError:
-            print("Please enter a valid integer.")
+    # Loop over every job description
+    for job_name, job_text in jobs:
+        print(f"\n🧠 Matching Resumes to Job Description: {job_name}\n")
+        for resume_name, resume_text in resumes:
+            score = get_similarity_scores(resume_text, job_text)
+            print(f"Resume: {resume_name} — Similarity Score: {score:.2f}")
 
-    job_name, job_text = jobs[choice]
-    print(f"\nComparing all resumes to job description: {job_name}\n")
-
-    for resume_name, resume_text in resumes:
-        score = get_similarity_scores(resume_text, job_text)
-        print(f"Resume: {resume_name} — Similarity Score: {score:.2f}")
-
-    # Check for age bias
+    # Check for age bias in all resumes
     biased = detect_age_bias(resumes)
     if biased:
-        print("\n⚠️ Biased Resumes Detected (mentioning age):")
+        print("\n🚨 Age Bias Detected in Resumes:")
         for name in biased:
             print(f" - {name}")
     else:

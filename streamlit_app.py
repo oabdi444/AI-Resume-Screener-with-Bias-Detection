@@ -4,7 +4,6 @@ from sentence_transformers import SentenceTransformer, util
 import re
 from src.qa import get_resume_feedback, ask_resume_question
 
-
 # Load embedding model
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
@@ -56,27 +55,27 @@ jobs = load_text_from_folder("data/job_descriptions")
 if not resumes or not jobs:
     st.warning("Please add some `.txt` resumes and job descriptions in the `data/` folders.")
 else:
-    job_name, job_text = jobs[0]
-    st.subheader(f"\U0001F9E0 Matching Resumes to Job: `{job_name}`")
+    for job_name, job_text in jobs:
+        st.subheader(f"\U0001F9E0 Matching Resumes to Job: `{job_name}`")
 
-    for resume_name, resume_text in resumes:
-        score = get_similarity_scores(resume_text, job_text)
-        st.write(f"**{resume_name}** — Similarity Score: `{score:.2f}`")
+        for resume_name, resume_text in resumes:
+            score = get_similarity_scores(resume_text, job_text)
+            st.write(f"**{resume_name}** — Similarity Score: `{score:.2f}`")
 
-        # === Added AI Feedback and Q&A Section ===
-        with st.expander(f"🔍 Resume Review for {resume_name}"):
-            feedback = get_resume_feedback(resume_text, job_text)
-            st.markdown(f"**Feedback:**\n{feedback}")
+            # === Added AI Feedback and Q&A Section ===
+            with st.expander(f"🔍 Resume Review for {resume_name} (Job: {job_name})"):
+                feedback = get_resume_feedback(resume_text, job_text)
+                st.markdown(f"**Feedback:**\n{feedback}")
 
-            st.markdown("**Ask a Question About This Resume:**")
-            user_question = st.text_input(f"Ask about {resume_name}:", key=f"q_{resume_name}")
+                st.markdown("**Ask a Question About This Resume:**")
+                user_question = st.text_input(f"Ask about {resume_name} (Job: {job_name}):", key=f"q_{job_name}_{resume_name}")
 
-            if st.button(f"Ask about {resume_name}"):
-                if user_question:
-                    answer = ask_resume_question(resume_text, job_text, user_question)
-                    st.markdown(f"**Answer:** {answer}")
-                else:
-                    st.warning("Please type a question.")
+                if st.button(f"Ask about {resume_name} (Job: {job_name})", key=f"btn_{job_name}_{resume_name}"):
+                    if user_question:
+                        answer = ask_resume_question(resume_text, job_text, user_question)
+                        st.markdown(f"**Answer:** {answer}")
+                    else:
+                        st.warning("Please type a question.")
 
     st.subheader("\U0001F6A8 Age Bias Detection")
     biased = detect_age_bias(resumes)
