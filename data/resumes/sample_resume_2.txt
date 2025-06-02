@@ -1,0 +1,12 @@
+Jane Doe
+Junior Data Scientist passionate about machine learning and analytics.
+
+Experience:
+Data Scientist Intern – ABC Tech (2023–2024)
+- Built a churn prediction model using Python, Pandas, Scikit-learn.
+- Created interactive dashboards with Plotly and Dash.
+
+Education:
+MSc Data Science, King's College London, 2022
+
+Skills: Python, Machine Learning, Pandas, NumPy, SQL, Git

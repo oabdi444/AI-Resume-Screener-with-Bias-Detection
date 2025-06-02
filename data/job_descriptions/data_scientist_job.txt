@@ -1,0 +1,7 @@
+Seeking a Data Scientist with:
+- Experience in Python and machine learning
+- Ability to clean and model large datasets
+- Familiarity with Scikit-learn, Pandas, NumPy, Git
+- Strong analytical and critical thinking skills
+
+MSc or higher preferred.
