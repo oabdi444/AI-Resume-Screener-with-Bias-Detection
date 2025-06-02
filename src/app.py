@@ -20,14 +20,28 @@ def main():
     resumes = load_text_from_folder(resume_folder)
     jobs = load_text_from_folder(job_folder)
 
-    # For this example, just compare each resume to the first job description
     if not jobs:
         print("No job descriptions found.")
         return
 
-    job_name, job_text = jobs[0]
+    # List available job descriptions
+    print("Available Job Descriptions:")
+    for i, (job_name, _) in enumerate(jobs):
+        print(f"{i}: {job_name}")
 
-    print(f"Comparing all resumes to job description: {job_name}\n")
+    # Let user select which job description to use
+    while True:
+        try:
+            choice = int(input(f"Select a job description by number (0-{len(jobs)-1}): "))
+            if 0 <= choice < len(jobs):
+                break
+            else:
+                print("Invalid choice, try again.")
+        except ValueError:
+            print("Please enter a valid integer.")
+
+    job_name, job_text = jobs[choice]
+    print(f"\nComparing all resumes to job description: {job_name}\n")
 
     for resume_name, resume_text in resumes:
         score = get_similarity_scores(resume_text, job_text)
