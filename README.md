@@ -1,6 +1,10 @@
 AI Resume Screener with Bias Detection and Explainability
+
+
+
 Overview
 This project applies Natural Language Processing (NLP) and Machine Learning (ML) techniques to streamline the resume screening process. In addition to ranking candidates based on relevance to job descriptions, the system includes a mechanism to detect potential age-related biases and supports model interpretability using SHAP.
+
 
 This tool is intended to assist HR teams and recruiters in making more data-driven, transparent, and equitable hiring decisions.
 
@@ -28,6 +32,10 @@ bash
 Copy
 Edit
 resume-screener/
+
+
+
+
 │
 ├── src/
 │   ├── app.py                # Streamlit app main script
