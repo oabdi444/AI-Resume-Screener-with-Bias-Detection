@@ -28,9 +28,6 @@ Web-Based User Interface
 Built with Streamlit, allowing for interactive resume uploads, job description input, and result visualization.
 
 Project Structure
-bash
-Copy
-Edit
 resume-screener/
 
 
@@ -58,22 +55,13 @@ Ensure you have Python 3.7+ installed. It is recommended to use a virtual enviro
 Installation
 Clone the repository:
 
-bash
-Copy
-Edit
 git clone https://github.com/your-username/resume-screener.git
 cd resume-screener
 Install dependencies:
 
-bash
-Copy
-Edit
 pip install -r requirements.txt
 Run the application:
 
-bash
-Copy
-Edit
 streamlit run src/app.py
 Usage
 Open the Streamlit interface in your browser.
